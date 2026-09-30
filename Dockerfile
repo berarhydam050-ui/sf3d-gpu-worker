@@ -6,9 +6,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1-mesa-glx \
     libglib2.0-0 \
     git \
+    build-essential \
     && rm -rf /var/lib/apt/lists/*
 
 RUN git clone https://github.com/Stability-AI/Stable-Fast-3D.git /content/sf3d
+
+WORKDIR /content/sf3d
 
 RUN pip install --no-cache-dir \
     runpod \
@@ -16,7 +19,9 @@ RUN pip install --no-cache-dir \
     trimesh \
     pyglet \
     onnxruntime-gpu \
-    -r /content/sf3d/requirements.txt
+    -r requirements.txt
+
+WORKDIR /content
 
 COPY handler.py /content/handler.py
 
